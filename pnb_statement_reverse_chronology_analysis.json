@@ -1,0 +1,559 @@
+{
+  "metadata": {
+    "bank_name": "Punjab National Bank",
+    "bank_code": "PNB",
+    "account_number": "0145000100234567",
+    "account_type": "SAVINGS",
+    "customer_name": "VIKRAM SHARMA",
+    "ifsc_code": "PUNB0014500",
+    "branch": "CONNAUGHT PLACE NEW DELHI",
+    "start_date": "2026-10-01",
+    "end_date": "2026-10-25",
+    "opening_balance": 35000.0,
+    "closing_balance": 43194.37,
+    "currency": "INR"
+  },
+  "ledger_audit": {
+    "is_verified": true,
+    "total_transactions": 12,
+    "was_reverse_chronological": true,
+    "opening_balance": 35000.0,
+    "closing_balance": 43194.37,
+    "calculated_closing_balance": 43194.37,
+    "discrepancy_count": 0,
+    "discrepancies": [],
+    "tampering_suspected": false,
+    "reconciliation_message": "100% Mathematical Ledger Match. No balance discrepancies detected."
+  },
+  "forensics": {
+    "wallet_rotation": {
+      "flag_raised": true,
+      "total_rotated_volume": 49500.0,
+      "monthly_rotated_volume": {
+        "2026-10": 49500.0
+      },
+      "detected_cycles": [
+        {
+          "cycle_id": "ROT_001",
+          "inflow_txn_id": "TXN_0003",
+          "inflow_date": "2026-10-03",
+          "inflow_amount": 50000.0,
+          "inflow_narration": "UPI/CR/MOBIKWIK PPIW WALLET CASH OUT",
+          "outflow_txn_id": "TXN_0004",
+          "outflow_date": "2026-10-04",
+          "outflow_amount": 49500.0,
+          "outflow_narration": "UPI/DR/billpay.axb@upi/CCBILLPAY AXIS CARD",
+          "delta_hours": 24.0,
+          "cycle_type": "WALLET_TO_CC_BILLPAY",
+          "rotated_volume": 49500.0
+        }
+      ],
+      "details": "Detected 1 circular rotation cycles totaling \u20b949,500.00 across 1 statement months."
+    },
+    "speculative_risk": {
+      "stock_trading_inflows": 0.0,
+      "stock_trading_outflows": 15000.0,
+      "stock_trading_turnover": 15000.0,
+      "stock_trading_drainage": 15000.0,
+      "gambling_outflows": 9500.0,
+      "gambling_frequency_monthly": {
+        "2026-10": 3
+      },
+      "crypto_outflows": 0.0,
+      "total_speculative_outflow": 24500.0,
+      "speculative_pct_of_salary": 28.82,
+      "critical_credit_risk": true,
+      "details": [
+        "CRITICAL_CREDIT_RISK: High-frequency gambling activity (>2 txns/month) detected.",
+        "Gambling & Betting Outflows: \u20b99,500.00 across 3 events.",
+        "Stock & F&O Turnover: \u20b915,000.00 (Net Drainage: \u20b915,000.00)."
+      ]
+    },
+    "bounce_forensics": {
+      "inward_cheque_bounces": 0,
+      "outward_cheque_bounces": 0,
+      "nach_mandate_bounces": 1,
+      "total_penalty_fees": 295.0,
+      "penalty_breakdown": {
+        "INR_295": 295.0
+      },
+      "bounce_events": [
+        {
+          "txn_id": "TXN_0005",
+          "date": "2026-10-05",
+          "type": "NACH_ECS_MANDATE_BOUNCE",
+          "narration": "ACH RTN/BAJAJ FINANCE/MANDATE REJECT/UNPAID",
+          "amount": 0.0
+        }
+      ]
+    },
+    "emi_default_analysis": {
+      "missed_mandates": [],
+      "partial_loan_recoveries": [
+        {
+          "txn_id": "TXN_0007",
+          "date": "2026-10-07",
+          "amount": 160.63,
+          "narration": "LN REC DL REC SWEEP PARTIAL RECOVERY",
+          "flag": "BROKEN_PARTIAL_LOAN_RECOVERY"
+        }
+      ],
+      "fintech_overdue_charges": [],
+      "total_penal_charges": 0.0
+    }
+  },
+  "financial_metrics": {
+    "average_net_monthly_salary": 85000.0,
+    "monthly_salaries": {
+      "2026-10": 85000.0
+    },
+    "salary_consistency_score": 0.9,
+    "total_monthly_obligations": 160.63,
+    "obligations_breakdown": [
+      {
+        "txn_id": "TXN_0007",
+        "date": "2026-10-07",
+        "narration": "LN REC DL REC SWEEP PARTIAL RECOVERY",
+        "amount": 160.63,
+        "tag": "EMI/MANDATE"
+      }
+    ],
+    "foir_percentage": 0.19,
+    "average_bank_balance": 66056.12,
+    "monthly_abb": {
+      "2026-10": 66056.12
+    },
+    "zero_balance_days_count": 0,
+    "zero_balance_days_monthly": {},
+    "cash_deposit_total": 0.0,
+    "total_inflows": 135000.0,
+    "cash_inflow_ratio": 0.0
+  },
+  "verdict": {
+    "decision": "REJECT",
+    "risk_grade": "REJECTED",
+    "credit_score": 300,
+    "hard_rejection_reasons": [
+      "DELINQUENCY_BREACH: 1 Inward Cheque / NACH mandate bounce(s) detected. Total penalty fees: \u20b9295.00.",
+      "SPECULATION_BREACH: High-frequency gambling activity (>2 txns/month) flagged.",
+      "SPECULATIVE_BURDEN: Speculative outflows (28.8% of salary) exceed 10% threshold.",
+      "CREDIT_CARD_ROTATION: Artificial liquidity cycling detected. Rotated volume: \u20b949,500.00 across 1 cycles."
+    ],
+    "manual_review_triggers": [
+      "PARTIAL_RECOVERY_WARNING: 1 broken internal loan recovery event(s) detected (account balance insufficient for full EMI)."
+    ],
+    "positive_factors": [
+      "STABLE_INCOME: Regular salary inflow verified with consistency score 0.90.",
+      "HEALTHY_LEVERAGE: Prudent debt profile with FOIR at 0.2%.",
+      "STRONG_LIQUIDITY: Robust Average Bank Balance (ABB) of \u20b966,056.12.",
+      "AUDIT_PASSED: 100% mathematical ledger continuity confirmed."
+    ],
+    "underwriting_notes": []
+  },
+  "transactions": [
+    {
+      "txn_id": "TXN_0001",
+      "date": "2026-10-01",
+      "value_date": "2026-10-01",
+      "narration": "TREASURY WBEP GOVT SALARY OCT 2026",
+      "chq_ref": null,
+      "debit": 0.0,
+      "credit": 85000.0,
+      "balance": 120000.0,
+      "category": "SALARY",
+      "tags": {
+        "is_salary": true,
+        "is_bounce": false,
+        "is_gambling": false,
+        "is_wallet_rotation": false,
+        "is_emi": false,
+        "is_speculative": false,
+        "is_cash_deposit": false,
+        "is_penalty": false,
+        "is_partial_recovery": false
+      },
+      "forensic_flags": [],
+      "raw_row": {
+        "date_str": "01/10/2026",
+        "value_date_str": "",
+        "narration": "TREASURY WBEP GOVT SALARY OCT 2026",
+        "chq_ref": "",
+        "debit_str": "0.00",
+        "credit_str": "85,000.00",
+        "balance_str": "120,000.00"
+      }
+    },
+    {
+      "txn_id": "TXN_0002",
+      "date": "2026-10-02",
+      "value_date": "2026-10-02",
+      "narration": "UPI/DR/MOBIKWIK/PPIW ADD MONEY/WALLET",
+      "chq_ref": null,
+      "debit": 50000.0,
+      "credit": 0.0,
+      "balance": 70000.0,
+      "category": "GENERAL",
+      "tags": {
+        "is_salary": false,
+        "is_bounce": false,
+        "is_gambling": false,
+        "is_wallet_rotation": false,
+        "is_emi": false,
+        "is_speculative": false,
+        "is_cash_deposit": false,
+        "is_penalty": false,
+        "is_partial_recovery": false
+      },
+      "forensic_flags": [],
+      "raw_row": {
+        "date_str": "02/10/2026",
+        "value_date_str": "",
+        "narration": "UPI/DR/MOBIKWIK/PPIW ADD MONEY/WALLET",
+        "chq_ref": "",
+        "debit_str": "50,000.00",
+        "credit_str": "0.00",
+        "balance_str": "70,000.00"
+      }
+    },
+    {
+      "txn_id": "TXN_0003",
+      "date": "2026-10-03",
+      "value_date": "2026-10-03",
+      "narration": "UPI/CR/MOBIKWIK PPIW WALLET CASH OUT",
+      "chq_ref": null,
+      "debit": 0.0,
+      "credit": 50000.0,
+      "balance": 120000.0,
+      "category": "GENERAL",
+      "tags": {
+        "is_salary": false,
+        "is_bounce": false,
+        "is_gambling": false,
+        "is_wallet_rotation": true,
+        "is_emi": false,
+        "is_speculative": false,
+        "is_cash_deposit": false,
+        "is_penalty": false,
+        "is_partial_recovery": false
+      },
+      "forensic_flags": [
+        "CREDIT_CARD_ROTATION_SUSPECT"
+      ],
+      "raw_row": {
+        "date_str": "03/10/2026",
+        "value_date_str": "",
+        "narration": "UPI/CR/MOBIKWIK PPIW WALLET CASH OUT",
+        "chq_ref": "",
+        "debit_str": "0.00",
+        "credit_str": "50,000.00",
+        "balance_str": "120,000.00"
+      }
+    },
+    {
+      "txn_id": "TXN_0004",
+      "date": "2026-10-04",
+      "value_date": "2026-10-04",
+      "narration": "UPI/DR/billpay.axb@upi/CCBILLPAY AXIS CARD",
+      "chq_ref": null,
+      "debit": 49500.0,
+      "credit": 0.0,
+      "balance": 70500.0,
+      "category": "GENERAL",
+      "tags": {
+        "is_salary": false,
+        "is_bounce": false,
+        "is_gambling": false,
+        "is_wallet_rotation": true,
+        "is_emi": false,
+        "is_speculative": false,
+        "is_cash_deposit": false,
+        "is_penalty": false,
+        "is_partial_recovery": false
+      },
+      "forensic_flags": [
+        "CREDIT_CARD_ROTATION_SUSPECT"
+      ],
+      "raw_row": {
+        "date_str": "04/10/2026",
+        "value_date_str": "",
+        "narration": "UPI/DR/billpay.axb@upi/CCBILLPAY AXIS CARD",
+        "chq_ref": "",
+        "debit_str": "49,500.00",
+        "credit_str": "0.00",
+        "balance_str": "70,500.00"
+      }
+    },
+    {
+      "txn_id": "TXN_0005",
+      "date": "2026-10-05",
+      "value_date": "2026-10-05",
+      "narration": "ACH RTN/BAJAJ FINANCE/MANDATE REJECT/UNPAID",
+      "chq_ref": null,
+      "debit": 0.0,
+      "credit": 0.0,
+      "balance": 70500.0,
+      "category": "MANDATE_BOUNCE",
+      "tags": {
+        "is_salary": false,
+        "is_bounce": true,
+        "is_gambling": false,
+        "is_wallet_rotation": false,
+        "is_emi": false,
+        "is_speculative": false,
+        "is_cash_deposit": false,
+        "is_penalty": false,
+        "is_partial_recovery": false
+      },
+      "forensic_flags": [
+        "MANDATE_BOUNCE_NACH_ECS"
+      ],
+      "raw_row": {
+        "date_str": "05/10/2026",
+        "value_date_str": "",
+        "narration": "ACH RTN/BAJAJ FINANCE/MANDATE REJECT/UNPAID",
+        "chq_ref": "",
+        "debit_str": "0.00",
+        "credit_str": "0.00",
+        "balance_str": "70,500.00"
+      }
+    },
+    {
+      "txn_id": "TXN_0006",
+      "date": "2026-10-05",
+      "value_date": "2026-10-05",
+      "narration": "ECS RETURN CHRG/GST INCL/PENALTY",
+      "chq_ref": null,
+      "debit": 295.0,
+      "credit": 0.0,
+      "balance": 70205.0,
+      "category": "BANK_PENALTY_CHARGE",
+      "tags": {
+        "is_salary": false,
+        "is_bounce": true,
+        "is_gambling": false,
+        "is_wallet_rotation": false,
+        "is_emi": false,
+        "is_speculative": false,
+        "is_cash_deposit": false,
+        "is_penalty": true,
+        "is_partial_recovery": false
+      },
+      "forensic_flags": [
+        "MANDATE_BOUNCE_NACH_ECS",
+        "PENALTY_FEE_295.0"
+      ],
+      "raw_row": {
+        "date_str": "05/10/2026",
+        "value_date_str": "",
+        "narration": "ECS RETURN CHRG/GST INCL/PENALTY",
+        "chq_ref": "",
+        "debit_str": "295.00",
+        "credit_str": "0.00",
+        "balance_str": "70,205.00"
+      }
+    },
+    {
+      "txn_id": "TXN_0007",
+      "date": "2026-10-07",
+      "value_date": "2026-10-07",
+      "narration": "LN REC DL REC SWEEP PARTIAL RECOVERY",
+      "chq_ref": null,
+      "debit": 160.63,
+      "credit": 0.0,
+      "balance": 70044.37,
+      "category": "INTERNAL_LOAN_RECOVERY",
+      "tags": {
+        "is_salary": false,
+        "is_bounce": false,
+        "is_gambling": false,
+        "is_wallet_rotation": false,
+        "is_emi": false,
+        "is_speculative": false,
+        "is_cash_deposit": false,
+        "is_penalty": false,
+        "is_partial_recovery": true
+      },
+      "forensic_flags": [
+        "PARTIAL_LOAN_RECOVERY_DEFICIT"
+      ],
+      "raw_row": {
+        "date_str": "07/10/2026",
+        "value_date_str": "",
+        "narration": "LN REC DL REC SWEEP PARTIAL RECOVERY",
+        "chq_ref": "",
+        "debit_str": "160.63",
+        "credit_str": "0.00",
+        "balance_str": "70,044.37"
+      }
+    },
+    {
+      "txn_id": "TXN_0008",
+      "date": "2026-10-10",
+      "value_date": "2026-10-10",
+      "narration": "UPI/DR/DREAM11/CONTEST ENTRY/GAMING",
+      "chq_ref": null,
+      "debit": 2500.0,
+      "credit": 0.0,
+      "balance": 67544.37,
+      "category": "GAMBLING_SPECULATION",
+      "tags": {
+        "is_salary": false,
+        "is_bounce": false,
+        "is_gambling": true,
+        "is_wallet_rotation": false,
+        "is_emi": false,
+        "is_speculative": false,
+        "is_cash_deposit": false,
+        "is_penalty": false,
+        "is_partial_recovery": false
+      },
+      "forensic_flags": [
+        "GAMBLING_SPECULATION"
+      ],
+      "raw_row": {
+        "date_str": "10/10/2026",
+        "value_date_str": "",
+        "narration": "UPI/DR/DREAM11/CONTEST ENTRY/GAMING",
+        "chq_ref": "",
+        "debit_str": "2,500.00",
+        "credit_str": "0.00",
+        "balance_str": "67,544.37"
+      }
+    },
+    {
+      "txn_id": "TXN_0009",
+      "date": "2026-10-14",
+      "value_date": "2026-10-14",
+      "narration": "UPI/DR/DREAM11/CONTEST ENTRY/GAMING",
+      "chq_ref": null,
+      "debit": 3000.0,
+      "credit": 0.0,
+      "balance": 64544.37,
+      "category": "GAMBLING_SPECULATION",
+      "tags": {
+        "is_salary": false,
+        "is_bounce": false,
+        "is_gambling": true,
+        "is_wallet_rotation": false,
+        "is_emi": false,
+        "is_speculative": false,
+        "is_cash_deposit": false,
+        "is_penalty": false,
+        "is_partial_recovery": false
+      },
+      "forensic_flags": [
+        "GAMBLING_SPECULATION"
+      ],
+      "raw_row": {
+        "date_str": "14/10/2026",
+        "value_date_str": "",
+        "narration": "UPI/DR/DREAM11/CONTEST ENTRY/GAMING",
+        "chq_ref": "",
+        "debit_str": "3,000.00",
+        "credit_str": "0.00",
+        "balance_str": "64,544.37"
+      }
+    },
+    {
+      "txn_id": "TXN_0010",
+      "date": "2026-10-18",
+      "value_date": "2026-10-18",
+      "narration": "UPI/DR/DREAM11/CONTEST ENTRY/GAMING",
+      "chq_ref": null,
+      "debit": 4000.0,
+      "credit": 0.0,
+      "balance": 60544.37,
+      "category": "GAMBLING_SPECULATION",
+      "tags": {
+        "is_salary": false,
+        "is_bounce": false,
+        "is_gambling": true,
+        "is_wallet_rotation": false,
+        "is_emi": false,
+        "is_speculative": false,
+        "is_cash_deposit": false,
+        "is_penalty": false,
+        "is_partial_recovery": false
+      },
+      "forensic_flags": [
+        "GAMBLING_SPECULATION"
+      ],
+      "raw_row": {
+        "date_str": "18/10/2026",
+        "value_date_str": "",
+        "narration": "UPI/DR/DREAM11/CONTEST ENTRY/GAMING",
+        "chq_ref": "",
+        "debit_str": "4,000.00",
+        "credit_str": "0.00",
+        "balance_str": "60,544.37"
+      }
+    },
+    {
+      "txn_id": "TXN_0011",
+      "date": "2026-10-20",
+      "value_date": "2026-10-20",
+      "narration": "UPI/DR/ZERODHA BROKING LTD/MARGIN FUNDING",
+      "chq_ref": null,
+      "debit": 15000.0,
+      "credit": 0.0,
+      "balance": 45544.37,
+      "category": "SPECULATIVE_TRADING",
+      "tags": {
+        "is_salary": false,
+        "is_bounce": false,
+        "is_gambling": false,
+        "is_wallet_rotation": false,
+        "is_emi": false,
+        "is_speculative": true,
+        "is_cash_deposit": false,
+        "is_penalty": false,
+        "is_partial_recovery": false
+      },
+      "forensic_flags": [
+        "SPECULATIVE_STOCK_FO"
+      ],
+      "raw_row": {
+        "date_str": "20/10/2026",
+        "value_date_str": "",
+        "narration": "UPI/DR/ZERODHA BROKING LTD/MARGIN FUNDING",
+        "chq_ref": "",
+        "debit_str": "15,000.00",
+        "credit_str": "0.00",
+        "balance_str": "45,544.37"
+      }
+    },
+    {
+      "txn_id": "TXN_0012",
+      "date": "2026-10-25",
+      "value_date": "2026-10-25",
+      "narration": "POS GROCERY STORE SWIPE NEW DELHI",
+      "chq_ref": null,
+      "debit": 2350.0,
+      "credit": 0.0,
+      "balance": 43194.37,
+      "category": "GENERAL",
+      "tags": {
+        "is_salary": false,
+        "is_bounce": false,
+        "is_gambling": false,
+        "is_wallet_rotation": false,
+        "is_emi": false,
+        "is_speculative": false,
+        "is_cash_deposit": false,
+        "is_penalty": false,
+        "is_partial_recovery": false
+      },
+      "forensic_flags": [],
+      "raw_row": {
+        "date_str": "25/10/2026",
+        "value_date_str": "",
+        "narration": "POS GROCERY STORE SWIPE NEW DELHI",
+        "chq_ref": "",
+        "debit_str": "2,350.00",
+        "credit_str": "0.00",
+        "balance_str": "43,194.37"
+      }
+    }
+  ],
+  "memorandum_markdown": "# EXECUTIVE CREDIT UNDERWRITING MEMORANDUM\n**Evaluation Timestamp:** 2026-10-29 | **Issuing Engine:** Forensic Underwriting Matrix v2.0\n\n---\n## 1. Credit Verdict & Risk Scoring\n- **Final Underwriting Verdict:** **`[RECOMMENDATION: REJECT]`**\n- **Risk Grade Classification:** `REJECTED`\n- **Engineered Forensic Credit Score:** `300 / 900`\n- **Mathematical Ledger Verification:** `PASSED (100% Match)`\n\n### Critical Hard-Rejection Triggers:\n- \u26d4 **DELINQUENCY_BREACH: 1 Inward Cheque / NACH mandate bounce(s) detected. Total penalty fees: \u20b9295.00.**\n- \u26d4 **SPECULATION_BREACH: High-frequency gambling activity (>2 txns/month) flagged.**\n- \u26d4 **SPECULATIVE_BURDEN: Speculative outflows (28.8% of salary) exceed 10% threshold.**\n- \u26d4 **CREDIT_CARD_ROTATION: Artificial liquidity cycling detected. Rotated volume: \u20b949,500.00 across 1 cycles.**\n\n### Underwriter Attention / Manual Review Flags:\n- \u26a0\ufe0f **PARTIAL_RECOVERY_WARNING: 1 broken internal loan recovery event(s) detected (account balance insufficient for full EMI).**\n\n### Mitigating & Positive Factors:\n- \u2705 **STABLE_INCOME: Regular salary inflow verified with consistency score 0.90.**\n- \u2705 **HEALTHY_LEVERAGE: Prudent debt profile with FOIR at 0.2%.**\n- \u2705 **STRONG_LIQUIDITY: Robust Average Bank Balance (ABB) of \u20b966,056.12.**\n- \u2705 **AUDIT_PASSED: 100% mathematical ledger continuity confirmed.**\n\n---\n## 2. Borrower & Statement Profile\n| Attribute | Extraction Record |\n| :--- | :--- |\n| **Borrower / Account Holder** | VIKRAM SHARMA |\n| **Bank & Branch** | Punjab National Bank (CONNAUGHT PLACE NEW DELHI) |\n| **Account Number & Type** | `0145000100234567` (SAVINGS) |\n| **IFSC Code** | `PUNB0014500` |\n| **Statement Date Span** | 2026-10-01 to 2026-10-25 |\n| **Opening vs Closing Balance** | \u20b935,000.00 \u2192 \u20b943,194.37 |\n| **Total Processed Transactions** | 12 transactions |\n\n---\n## 3. Financial Indicators & Debt-Service Capability\n| Financial Indicator | Metric Value | Benchmark / Guideline | Status |\n| :--- | :--- | :--- | :--- |\n| **Average Net Monthly Salary** | \u20b985,000.00 | Formal regular income | Stable |\n| **Salary Consistency Score** | 0.90 / 1.00 | Threshold >= 0.70 | \u2705 Pass |\n| **Total Monthly Debt Obligations** | \u20b9160.63 | Verified ongoing EMIs/Mandates | Monitored |\n| **Fixed Obligation to Income (FOIR)** | **0.19%** | Max Permissible: 50.0% (Hard cap 65%) | \u2705 Optimal |\n| **Average Bank Balance (ABB)** | \u20b966,056.12 | Liquidity reserve | Healthy |\n| **Zero Balance Days (Total)** | 0 days | <= 5 days/month | \u2705 Clean |\n| **Cash Inflow Proportion** | 0.0% | Limit <= 40.0% | \u2705 Clean |\n\n---\n## 4. Forensic Deep-Dive Findings\n\n### A. Credit Card & Wallet Cash-Out / Rotation\n- **Rotation Flag Status:** `CREDIT_CARD_ROTATION_SUSPECT`\n- **Cumulative Rotated Volume:** \u20b949,500.00\n- **Identified Circular Cycles:** 1 loop(s)\n\n| Cycle ID | Inflow Date | Inflow Narration | Amount | Outflow Date | Outflow Destination | Duration |\n| :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n| ROT_001 | 2026-10-03 | UPI/CR/MOBIKWIK PPIW WALL | \u20b950,000.00 | 2026-10-04 | UPI/DR/billpay.axb@upi/CC | 24.0h |\n\n### B. Speculative Trading & Gaming Exposure\n- **Stock & F&O Day-Trading Turnover:** \u20b915,000.00 (Net Cash Drainage: \u20b915,000.00)\n- **Gambling & Betting Outflows:** \u20b99,500.00\n- **Crypto Asset Outflows:** \u20b90.00\n- **Speculative Burden vs Monthly Income:** 28.82%\n- **Critical Risk Trigger:** `YES - GAMBLING FREQUENCY BREACH`\n\n### C. Delinquency & Bounce Summary\n- **Inward Cheque Bounces (High CIBIL Impact):** `0`\n- **Outward Cheque Bounces:** `0`\n- **NACH / ECS Mandate Rejections:** `1`\n- **Total Bank Penalty Charges Paid:** \u20b9295.00\n\n### D. Loan Recovery & Mandate Health\n- **Missed Recurring Mandates (1st-5th):** 0 event(s)\n- **Partial Internal Loan Recoveries (Deficit Sweeps):** 1 event(s)\n- **Fintech / BNPL Overdue Penalties:** 0 event(s)\n\n---\n## 5. Underwriter Conditionality & Action Plan\n1. **Decline Application:** Multiple non-negotiable credit parameters breached (e.g. mandate defaults, excessive leverage, or artificial liquidity cycling).\n2. **Cooling Period:** Standard 6-month cooling period before reconsideration, contingent on 0 bounces and cured debt obligations."
+}

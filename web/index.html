@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Statement Forensic Underwriting Console</title>
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --success: #10B981;
+            --success-bg: #ECFDF5;
+            --danger: #EF4444;
+            --danger-bg: #FEF2F2;
+            --warning: #F59E0B;
+            --warning-bg: #FFFBEB;
+            --info: #8B5CF6;
+            --info-bg: #F5F3FF;
+            --slate-50: #F8FAFC;
+            --slate-100: #F1F5F9;
+            --slate-200: #E2E8F0;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1E293B;
+            --slate-900: #0F172A;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--slate-50);
+            color: var(--slate-900);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            accent-color: var(--primary);
+            color-scheme: light;
+            scrollbar-color: #CBD5E1 #F1F5F9;
+            scrollbar-width: thin;
+        }
+
+        header {
+            background-color: var(--slate-900);
+            color: white;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #334155;
+        }
+
+        .header-title h1 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-badge {
+            background: #1E293B;
+            color: #94A3B8;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid #334155;
+        }
+
+        main {
+            flex: 1;
+            max-width: 1300px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 24px 20px 60px;
+        }
+
+        /* Drag & Drop Zone */
+        .upload-section {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--slate-200);
+            padding: 28px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 24px;
+        }
+
+        .dropzone {
+            border: 2px dashed #94A3B8;
+            border-radius: 10px;
+            padding: 36px 20px;
+            text-align: center;
+            background: #F8FAFC;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .dropzone.dragover {
+            border-color: var(--primary);
+            background: #EFF6FF;
+            transform: scale(1.005);
+        }
+
+        .dropzone-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+
+        .dropzone-text h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--slate-800);
+            margin-bottom: 4px;
+        }
+
+        .dropzone-text p {
+            font-size: 13px;
+            color: var(--slate-600);
+            margin-bottom: 16px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            user-select: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--slate-700);
+            border: 1px solid var(--slate-200);
+        }
+
+        .btn-outline:hover {
+            background: var(--slate-100);
+            border-color: #CBD5E1;
+        }
+
+        .quick-demos {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            padding-top: 16px;
+            border-top: 1px solid var(--slate-200);
+        }
+
+        .quick-demos span {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--slate-600);
+            text-transform: uppercase;
+        }
+
+        .demo-chip {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid var(--slate-200);
+            background: white;
+            color: var(--slate-700);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .demo-chip:hover {
+            background: #EFF6FF;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Spinner */
+        .spinner-overlay {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 4px solid var(--slate-200);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Results Container */
+        #results {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Verdict Banner */
+        .verdict-banner {
+            border-radius: 12px;
+            padding: 24px;
+            color: white;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .verdict-banner.APPROVE {
+            background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+        }
+
+        .verdict-banner.MANUAL_REVIEW {
+            background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
+        }
+
+        .verdict-banner.REJECT {
+            background: linear-gradient(135deg, #DC2626 0%, #EF4444 100%);
+        }
+
+        .verdict-info h2 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+
+        .verdict-info p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .score-box {
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(4px);
+            padding: 14px 24px;
+            border-radius: 8px;
+            text-align: right;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .score-val {
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .score-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+            opacity: 0.9;
+        }
+
+        /* Alerts Section */
+        .alerts-card {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid var(--slate-200);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .alert-item {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .alert-item.danger {
+            background: var(--danger-bg);
+            color: #991B1B;
+            border-left: 4px solid var(--danger);
+        }
+
+        .alert-item.warning {
+            background: var(--warning-bg);
+            color: #92400E;
+            border-left: 4px solid var(--warning);
+        }
+
+        .alert-item.success {
+            background: var(--success-bg);
+            color: #065F46;
+            border-left: 4px solid var(--success);
+        }
+
+        /* Stat Grids */
+        .grid-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        }
+
+        .stat-card-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--slate-600);
+            margin-bottom: 6px;
+        }
+
+        .stat-card-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--slate-900);
+        }
+
+        .stat-card-subtitle {
+            font-size: 11px;
+            color: #64748B;
+            margin-top: 4px;
+        }
+
+        /* Forensic Deep Dive Cards */
+        .forensic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .forensic-card {
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .forensic-card h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--slate-800);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .forensic-list {
+            list-style: none;
+            font-size: 12.5px;
+        }
+
+        .forensic-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px dashed var(--slate-200);
+        }
+
+        .forensic-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Ledger Table Section */
+        .table-section {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid var(--slate-200);
+            padding: 20px;
+            margin-bottom: 24px;
+            /* Modern web guidance: Contain layout reflows during heavy interactions */
+            content-visibility: auto;
+            contain-intrinsic-size: auto 600px;
+        }
+
+        .table-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .filter-btn {
+            background: var(--slate-100);
+            border: 1px solid var(--slate-200);
+            color: var(--slate-700);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--slate-900);
+            color: white;
+            border-color: var(--slate-900);
+        }
+
+        .search-box {
+            padding: 6px 12px;
+            border: 1px solid var(--slate-200);
+            border-radius: 6px;
+            font-size: 12px;
+            width: 220px;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: var(--primary);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12.5px;
+        }
+
+        th {
+            background: var(--slate-50);
+            color: var(--slate-600);
+            font-weight: 600;
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 2px solid var(--slate-200);
+            text-transform: uppercase;
+            font-size: 11px;
+        }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--slate-200);
+        }
+
+        tr.row-salary { background-color: rgba(16, 185, 129, 0.05); }
+        tr.row-bounce { background-color: rgba(239, 68, 68, 0.08); }
+        tr.row-rotation { background-color: rgba(139, 92, 246, 0.08); }
+        tr.row-gambling { background-color: rgba(249, 115, 22, 0.08); }
+        tr.row-penalty { background-color: rgba(220, 38, 38, 0.08); }
+
+        .tag-pill {
+            display: inline-block;
+            font-size: 10.5px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-right: 4px;
+        }
+
+        .tag-salary { background: #D1FAE5; color: #065F46; }
+        .tag-bounce { background: #FEE2E2; color: #991B1B; }
+        .tag-rotation { background: #EDE9FE; color: #5B21B6; }
+        .tag-gambling { background: #FFEDD5; color: #9A3412; }
+        .tag-emi { background: #DBEAFE; color: #1E40AF; }
+        .tag-penalty { background: #FCE7F3; color: #9D174D; }
+        .tag-partial { background: #FEF9C3; color: #854D0E; }
+        .tag-cash { background: #CCFBF1; color: #115E59; }
+
+        /* Actions Footer */
+        .actions-card {
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 10px;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <h1>🛡️ Bank Statement Underwriting Console</h1>
+            <span class="header-badge">Deterministic Forensic Engine v2.0</span>
+        </div>
+        <div>
+            <span style="font-size:12px;color:#94A3B8;">Precision Ledger Verification & AML Risk</span>
+        </div>
+    </header>
+
+    <main>
+        <!-- Drag & Drop Zone -->
+        <section class="upload-section">
+            <div id="dropzone" class="dropzone">
+                <div class="dropzone-icon">📄</div>
+                <div class="dropzone-text">
+                    <h3>Drag & Drop Indian Bank Statement PDF here</h3>
+                    <p>Supports PNB, SBI, HDFC, ICICI, Axis, Canara & Generic formats</p>
+                </div>
+                <input type="file" id="fileInput" accept=".pdf" style="display:none;" />
+                <button type="button" class="btn btn-primary" onclick="document.getElementById('fileInput').click()">Browse PDF File</button>
+            </div>
+
+            <!-- 1-Click Test Scenarios -->
+            <div class="quick-demos">
+                <span>⚡ 1-Click Test Cases:</span>
+                <button type="button" class="demo-chip" onclick="loadSample('pnb')">🚨 PNB Reverse (CC Rotation + Bounce + Gambling -> REJECT)</button>
+                <button type="button" class="demo-chip" onclick="loadSample('hdfc')">✅ HDFC Prime (Salaried -> APPROVE)</button>
+                <button type="button" class="demo-chip" onclick="loadSample('sbi')">⚠️ SBI Cash Stress (Cash &gt; 40% -> MANUAL REVIEW)</button>
+                <button type="button" class="demo-chip" onclick="loadSample('tampered')">❌ Tampered Ledger (Discrepancy -> REJECT)</button>
+            </div>
+        </section>
+
+        <!-- Loading Spinner -->
+        <div id="spinner" class="spinner-overlay">
+            <div class="spinner"></div>
+            <p style="font-size:14px;font-weight:600;color:var(--slate-700);">Executing Forensic Ledger Verification & Credit Policy Matrix...</p>
+        </div>
+
+        <!-- Analysis Results Dashboard -->
+        <section id="results">
+            <!-- Verdict Banner -->
+            <div id="verdictBanner" class="verdict-banner">
+                <div class="verdict-info">
+                    <p style="text-transform:uppercase;font-size:12px;font-weight:700;letter-spacing:1px;">Underwriting Decision</p>
+                    <h2 id="verdictDecision">EVALUATING...</h2>
+                    <p id="verdictSummary">Statement parsed and normalized successfully.</p>
+                </div>
+                <div class="score-box">
+                    <div id="creditScoreVal" class="score-val">---</div>
+                    <div id="riskGradeVal" class="score-label">RISK GRADE</div>
+                </div>
+            </div>
+
+            <!-- Alerts & Policy Breaches -->
+            <div id="alertsContainer" class="alerts-card">
+                <!-- Dynamically filled with hard rejections or positive factors -->
+            </div>
+
+            <!-- Key Financial Indicators -->
+            <div class="grid-stats">
+                <div class="stat-card">
+                    <div class="stat-card-title">Average Monthly Salary</div>
+                    <div id="statSalary" class="stat-card-value">₹0.00</div>
+                    <div id="statSalaryScore" class="stat-card-subtitle">Consistency: 0.00 / 1.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Monthly Debt (EMIs)</div>
+                    <div id="statObligations" class="stat-card-value">₹0.00</div>
+                    <div class="stat-card-subtitle">Ongoing verified commitments</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">FOIR (Debt-to-Income)</div>
+                    <div id="statFoir" class="stat-card-value">0.00%</div>
+                    <div id="statFoirStatus" class="stat-card-subtitle">Policy Cap: 50.0%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Average Bank Balance (ABB)</div>
+                    <div id="statAbb" class="stat-card-value">₹0.00</div>
+                    <div class="stat-card-subtitle">Liquid operational cushion</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Zero Balance Days</div>
+                    <div id="statZeroDays" class="stat-card-value">0 days</div>
+                    <div class="stat-card-subtitle">Days with balance &le; ₹100</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Cash Inflow Ratio</div>
+                    <div id="statCashRatio" class="stat-card-value">0.0%</div>
+                    <div class="stat-card-subtitle">Policy Limit: &le; 40.0%</div>
+                </div>
+            </div>
+
+            <!-- Forensic Deep-Dive Summary -->
+            <div class="forensic-grid">
+                <div class="forensic-card">
+                    <h4>
+                        <span>🔄 Credit Card Rotation</span>
+                        <span id="badgeRotation" class="tag-pill tag-rotation">CHECKING</span>
+                    </h4>
+                    <ul class="forensic-list">
+                        <li><span>Rotated Volume</span><strong id="valRotatedVol">₹0.00</strong></li>
+                        <li><span>Detected Cycles</span><strong id="valRotatedCycles">0</strong></li>
+                        <li><span>Artificial Liquidity Flag</span><strong id="valRotatedFlag">CLEAN</strong></li>
+                    </ul>
+                </div>
+                <div class="forensic-card">
+                    <h4>
+                        <span>🎲 Speculative & Gambling Risk</span>
+                        <span id="badgeSpeculative" class="tag-pill tag-gambling">CHECKING</span>
+                    </h4>
+                    <ul class="forensic-list">
+                        <li><span>Gambling Outflows</span><strong id="valGamblingOut">₹0.00</strong></li>
+                        <li><span>Stock F&O Turnover</span><strong id="valStockTurnover">₹0.00</strong></li>
+                        <li><span>Speculative % of Salary</span><strong id="valSpecPct">0.0%</strong></li>
+                    </ul>
+                </div>
+                <div class="forensic-card">
+                    <h4>
+                        <span>⚠️ Delinquency & Bounces</span>
+                        <span id="badgeBounces" class="tag-pill tag-bounce">CHECKING</span>
+                    </h4>
+                    <ul class="forensic-list">
+                        <li><span>Inward Cheque Bounces</span><strong id="valInwardBounce">0</strong></li>
+                        <li><span>NACH Mandate Rejections</span><strong id="valMandateBounce">0</strong></li>
+                        <li><span>Penalty Fees Paid</span><strong id="valPenaltyFees">₹0.00</strong></li>
+                    </ul>
+                </div>
+                <div class="forensic-card">
+                    <h4>
+                        <span>⚖️ Loan Health & Mandates</span>
+                        <span id="badgeLoanHealth" class="tag-pill tag-partial">CHECKING</span>
+                    </h4>
+                    <ul class="forensic-list">
+                        <li><span>Missed Mandates (1st-5th)</span><strong id="valMissedMandates">0</strong></li>
+                        <li><span>Deficit Sweeps (Partial Rec)</span><strong id="valPartialSweeps">0</strong></li>
+                        <li><span>BNPL Overdue Penalties</span><strong id="valBnplPenalties">0</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Normalized Ledger Table with Visual Highlighting -->
+            <div class="table-section">
+                <div class="table-toolbar">
+                    <div>
+                        <h3 style="font-size:16px;font-weight:700;color:var(--slate-800);">Normalized Transactions Ledger</h3>
+                        <p style="font-size:12px;color:var(--slate-600);">Real-time color-coded categorization with mathematical continuity</p>
+                    </div>
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+                        <input type="text" id="searchInput" class="search-box" placeholder="Search narration or amount..." onkeyup="filterTable()" />
+                        <div class="filter-buttons">
+                            <button type="button" class="filter-btn active" onclick="setFilter('all', this)">All</button>
+                            <button type="button" class="filter-btn" onclick="setFilter('salary', this)">Salary</button>
+                            <button type="button" class="filter-btn" onclick="setFilter('bounce', this)">Bounces & Penalties</button>
+                            <button type="button" class="filter-btn" onclick="setFilter('rotation', this)">CC Rotation</button>
+                            <button type="button" class="filter-btn" onclick="setFilter('gambling', this)">Gambling / F&O</button>
+                            <button type="button" class="filter-btn" onclick="setFilter('emi', this)">EMIs & Loans</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Txn ID</th>
+                                <th>Date</th>
+                                <th>Narration</th>
+                                <th style="text-align:right;">Debit</th>
+                                <th style="text-align:right;">Credit</th>
+                                <th style="text-align:right;">Balance</th>
+                                <th>Forensic Tags</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="actions-card">
+                <div>
+                    <span style="font-size:13px;font-weight:600;color:var(--slate-700);">Export Underwriting Dossier:</span>
+                </div>
+                <div style="display:flex;gap:10px;">
+                    <button type="button" class="btn btn-outline" onclick="downloadJSON()">📥 Download Audit JSON</button>
+                    <button type="button" class="btn btn-primary" onclick="downloadMarkdown()">📄 Download Executive Memo (.md)</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let currentReport = null;
+        let activeTagFilter = 'all';
+
+        // Drag & Drop Setup
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('fileInput');
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropzone.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('dragover');
+            }, false);
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files && files.length > 0) {
+                uploadPDF(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files.length > 0) {
+                uploadPDF(e.target.files[0]);
+            }
+        });
+
+        function showSpinner(show) {
+            document.getElementById('spinner').style.display = show ? 'block' : 'none';
+            if (show) {
+                document.getElementById('results').style.display = 'none';
+            }
+        }
+
+        async function uploadPDF(file) {
+            showSpinner(true);
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/api/analyze', {
+                    method: 'POST',
+                    body: formData,
+                });
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.detail || 'Analysis failed');
+                }
+                const data = await response.json();
+                renderReport(data);
+            } catch (err) {
+                alert('Error analyzing PDF: ' + err.message);
+            } finally {
+                showSpinner(false);
+            }
+        }
+
+        async function loadSample(name) {
+            showSpinner(true);
+            try {
+                const response = await fetch(`/api/sample/${name}`);
+                if (!response.ok) {
+                    throw new Error('Failed to load sample');
+                }
+                const data = await response.json();
+                renderReport(data);
+            } catch (err) {
+                alert('Error loading sample: ' + err.message);
+            } finally {
+                showSpinner(false);
+            }
+        }
+
+        function renderReport(data) {
+            currentReport = data;
+            document.getElementById('results').style.display = 'block';
+
+            const v = data.verdict;
+            const m = data.financial_metrics;
+            const meta = data.metadata;
+            const audit = data.ledger_audit;
+            const f = data.forensics;
+
+            // Verdict Banner
+            const banner = document.getElementById('verdictBanner');
+            banner.className = 'verdict-banner ' + v.decision;
+            document.getElementById('verdictDecision').textContent = v.decision.replace('_', ' ');
+            document.getElementById('verdictSummary').textContent = `${meta.customer_name} | ${meta.bank_name} (${meta.account_number}) | Ledger: ${audit.is_verified ? '100% Match' : 'Discrepancy Breached'}`;
+            document.getElementById('creditScoreVal').textContent = v.credit_score;
+            document.getElementById('riskGradeVal').textContent = 'GRADE: ' + v.risk_grade;
+
+            // Alerts
+            const alertsCont = document.getElementById('alertsContainer');
+            alertsCont.innerHTML = '';
+            
+            if (v.hard_rejection_reasons && v.hard_rejection_reasons.length > 0) {
+                v.hard_rejection_reasons.forEach(r => {
+                    alertsCont.innerHTML += `<div class="alert-item danger"><span>⛔</span><div><b>Hard Rejection:</b> ${r}</div></div>`;
+                });
+            }
+            if (v.manual_review_triggers && v.manual_review_triggers.length > 0) {
+                v.manual_review_triggers.forEach(tr => {
+                    alertsCont.innerHTML += `<div class="alert-item warning"><span>⚠️</span><div><b>Manual Review Trigger:</b> ${tr}</div></div>`;
+                });
+            }
+            if (v.positive_factors && v.positive_factors.length > 0) {
+                v.positive_factors.forEach(p => {
+                    alertsCont.innerHTML += `<div class="alert-item success"><span>✅</span><div><b>Positive Mitigant:</b> ${p}</div></div>`;
+                });
+            }
+
+            // Stats
+            document.getElementById('statSalary').textContent = '₹' + m.average_net_monthly_salary.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            document.getElementById('statSalaryScore').textContent = `Consistency: ${m.salary_consistency_score.toFixed(2)} / 1.00`;
+            document.getElementById('statObligations').textContent = '₹' + m.total_monthly_obligations.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            
+            const foirElem = document.getElementById('statFoir');
+            foirElem.textContent = m.foir_percentage.toFixed(1) + '%';
+            if (m.foir_percentage <= 50) foirElem.style.color = '#059669';
+            else if (m.foir_percentage <= 65) foirElem.style.color = '#D97706';
+            else foirElem.style.color = '#DC2626';
+
+            document.getElementById('statAbb').textContent = '₹' + m.average_bank_balance.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            document.getElementById('statZeroDays').textContent = m.zero_balance_days_count + ' days';
+            document.getElementById('statCashRatio').textContent = (m.cash_inflow_ratio * 100).toFixed(1) + '%';
+
+            // Forensic Summary Cards
+            const w = f.wallet_rotation;
+            document.getElementById('valRotatedVol').textContent = '₹' + w.total_rotated_volume.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            document.getElementById('valRotatedCycles').textContent = w.detected_cycles.length;
+            document.getElementById('valRotatedFlag').textContent = w.flag_raised ? 'SUSPECT DETECTED' : 'CLEAN';
+            document.getElementById('badgeRotation').textContent = w.flag_raised ? 'FLAGGED' : 'CLEAR';
+
+            const s = f.speculative_risk;
+            document.getElementById('valGamblingOut').textContent = '₹' + s.gambling_outflows.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            document.getElementById('valStockTurnover').textContent = '₹' + s.stock_trading_turnover.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            document.getElementById('valSpecPct').textContent = s.speculative_pct_of_salary.toFixed(1) + '%';
+            document.getElementById('badgeSpeculative').textContent = s.critical_credit_risk ? 'HIGH RISK' : 'NORMAL';
+
+            const b = f.bounce_forensics;
+            document.getElementById('valInwardBounce').textContent = b.inward_cheque_bounces;
+            document.getElementById('valMandateBounce').textContent = b.nach_mandate_bounces;
+            document.getElementById('valPenaltyFees').textContent = '₹' + b.total_penalty_fees.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            document.getElementById('badgeBounces').textContent = (b.inward_cheque_bounces + b.nach_mandate_bounces > 0) ? 'BOUNCES DETECTED' : 'CLEAN';
+
+            const e = f.emi_default_analysis;
+            document.getElementById('valMissedMandates').textContent = e.missed_mandates.length;
+            document.getElementById('valPartialSweeps').textContent = e.partial_loan_recoveries.length;
+            document.getElementById('valBnplPenalties').textContent = e.fintech_overdue_charges.length;
+
+            renderTransactions();
+        }
+
+        function renderTransactions() {
+            if (!currentReport || !currentReport.transactions) return;
+
+            const tbody = document.getElementById('transactionBody');
+            tbody.innerHTML = '';
+            const search = document.getElementById('searchInput').value.toLowerCase();
+
+            currentReport.transactions.forEach(t => {
+                // Apply tag filter
+                if (activeTagFilter === 'salary' && !t.tags.is_salary) return;
+                if (activeTagFilter === 'bounce' && (!t.tags.is_bounce && !t.tags.is_penalty)) return;
+                if (activeTagFilter === 'rotation' && !t.tags.is_wallet_rotation) return;
+                if (activeTagFilter === 'gambling' && (!t.tags.is_gambling && !t.tags.is_speculative)) return;
+                if (activeTagFilter === 'emi' && (!t.tags.is_emi && !t.tags.is_partial_recovery)) return;
+
+                // Apply text search
+                if (search && !t.narration.toLowerCase().includes(search) && !t.txn_id.toLowerCase().includes(search)) {
+                    return;
+                }
+
+                // Row highlight class
+                let rowClass = '';
+                if (t.tags.is_bounce) rowClass = 'row-bounce';
+                else if (t.tags.is_wallet_rotation) rowClass = 'row-rotation';
+                else if (t.tags.is_gambling) rowClass = 'row-gambling';
+                else if (t.tags.is_salary) rowClass = 'row-salary';
+                else if (t.tags.is_penalty) rowClass = 'row-penalty';
+
+                // Pills
+                let pills = [];
+                if (t.tags.is_salary) pills.push('<span class="tag-pill tag-salary">SALARY</span>');
+                if (t.tags.is_bounce) pills.push('<span class="tag-pill tag-bounce">BOUNCE</span>');
+                if (t.tags.is_wallet_rotation) pills.push('<span class="tag-pill tag-rotation">CC ROTATION</span>');
+                if (t.tags.is_gambling) pills.push('<span class="tag-pill tag-gambling">GAMBLING</span>');
+                if (t.tags.is_speculative) pills.push('<span class="tag-pill tag-gambling">F&O TRADING</span>');
+                if (t.tags.is_emi) pills.push('<span class="tag-pill tag-emi">EMI / MANDATE</span>');
+                if (t.tags.is_penalty) pills.push('<span class="tag-pill tag-penalty">PENALTY CHG</span>');
+                if (t.tags.is_partial_recovery) pills.push('<span class="tag-pill tag-partial">PARTIAL REC</span>');
+                if (t.tags.is_cash_deposit) pills.push('<span class="tag-pill tag-cash">CASH DEP</span>');
+
+                const pillsStr = pills.join(' ') || '<span style="color:#94A3B8;font-size:11px;">GENERAL</span>';
+
+                tbody.innerHTML += `
+                    <tr class="${rowClass}">
+                        <td style="font-family:monospace;font-size:11.5px;">${t.txn_id}</td>
+                        <td style="white-space:nowrap;">${t.date}</td>
+                        <td>${t.narration}</td>
+                        <td style="text-align:right;color:#DC2626;font-family:monospace;">${t.debit > 0 ? '₹' + t.debit.toLocaleString('en-IN', {minimumFractionDigits: 2}) : '-'}</td>
+                        <td style="text-align:right;color:#059669;font-family:monospace;">${t.credit > 0 ? '₹' + t.credit.toLocaleString('en-IN', {minimumFractionDigits: 2}) : '-'}</td>
+                        <td style="text-align:right;font-family:monospace;font-weight:600;">₹${t.balance.toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
+                        <td>${pillsStr}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function setFilter(tag, btn) {
+            activeTagFilter = tag;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderTransactions();
+        }
+
+        function filterTable() {
+            renderTransactions();
+        }
+
+        function downloadJSON() {
+            if (!currentReport) return;
+            const blob = new Blob([JSON.stringify(currentReport, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${currentReport.metadata.customer_name}_underwriting_report.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadMarkdown() {
+            if (!currentReport || !currentReport.memorandum_markdown) return;
+            const blob = new Blob([currentReport.memorandum_markdown], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${currentReport.metadata.customer_name}_underwriting_memorandum.md`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

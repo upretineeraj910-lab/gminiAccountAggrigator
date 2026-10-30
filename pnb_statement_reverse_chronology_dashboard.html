@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forensic Underwriting Dashboard - VIKRAM SHARMA</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background:#F9FAFB; color:#1F2937; margin:0; padding:24px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .card { background:white; border-radius:10px; border:1px solid #E5E7EB; box-shadow:0 1px 3px rgba(0,0,0,0.05); padding:24px; margin-bottom:20px; }
+        .header-title { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #E5E7EB; padding-bottom:16px; margin-bottom:16px; }
+        .badge { background:#EF4444; color:white; padding:6px 16px; border-radius:20px; font-weight:700; font-size:14px; letter-spacing:0.5px; }
+        .grid-4 { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:16px; }
+        .stat-box { background:#F3F4F6; border-radius:8px; padding:14px; }
+        .stat-label { font-size:12px; color:#6B7280; text-transform:uppercase; font-weight:600; margin-bottom:4px; }
+        .stat-val { font-size:20px; font-weight:700; color:#111827; }
+        table { width:100%; border-collapse:collapse; margin-top:12px; }
+        th { background:#F9FAFB; padding:10px 12px; text-align:left; font-size:11px; text-transform:uppercase; color:#6B7280; border-bottom:2px solid #E5E7EB; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="header-title">
+            <div>
+                <h1 style="margin:0;font-size:22px;color:#111827;">FORENSIC UNDERWRITING DOSSIER</h1>
+                <p style="margin:4px 0 0;font-size:13px;color:#6B7280;">Borrower: <b>VIKRAM SHARMA</b> | Account: <code>0145000100234567</code> (Punjab National Bank)</p>
+            </div>
+            <div>
+                <span class="badge">REJECT</span>
+            </div>
+        </div>
+
+        <div class="grid-4">
+            <div class="stat-box">
+                <div class="stat-label">Risk Grade & Score</div>
+                <div class="stat-val">REJECTED <span style="font-size:14px;color:#6B7280;">(300/900)</span></div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Calculated FOIR</div>
+                <div class="stat-val">0.2%</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Net Monthly Salary</div>
+                <div class="stat-val">₹85,000.00</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Ledger Audit</div>
+                <div class="stat-val" style="color:#10B981; font-size:16px;">100% MATCH</div>
+            </div>
+        </div>
+
+        <div style="margin-top:16px;background:#FEF2F2;border-left:4px solid #EF4444;padding:12px 16px;border-radius:4px;display:block;">
+            <b style="color:#991B1B;font-size:13px;">Hard Rejection Policies Triggered:</b>
+            <ul style="margin:6px 0 0;padding-left:20px;color:#7F1D1D;font-size:13px;">
+                <li>DELINQUENCY_BREACH: 1 Inward Cheque / NACH mandate bounce(s) detected. Total penalty fees: ₹295.00.</li><li>SPECULATION_BREACH: High-frequency gambling activity (>2 txns/month) flagged.</li><li>SPECULATIVE_BURDEN: Speculative outflows (28.8% of salary) exceed 10% threshold.</li><li>CREDIT_CARD_ROTATION: Artificial liquidity cycling detected. Rotated volume: ₹49,500.00 across 1 cycles.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 style="margin:0 0 12px;font-size:16px;color:#111827;">Normalized Ledger Transactions & Visual Highlight Tags</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Txn ID</th>
+                    <th>Date</th>
+                    <th>Narration</th>
+                    <th style="text-align:right;">Debit</th>
+                    <th style="text-align:right;">Credit</th>
+                    <th style="text-align:right;">Balance</th>
+                    <th>Visual Forensic Tags</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            <tr style="background:#F0FDF4;border-bottom:1px solid #E5E7EB;">
+                <td style="padding:10px 12px;font-family:monospace;font-size:12px;">TXN_0001</td>
+                <td style="padding:10px 12px;white-space:nowrap;font-size:12px;">2026-10-01</td>
+                <td style="padding:10px 12px;font-size:12px;">TREASURY WBEP GOVT SALARY OCT 2026</td>
+                <td style="padding:10px 12px;text-align:right;color:#DC2626;font-family:monospace;font-size:12px;">-</td>
+                <td style="padding:10px 12px;text-align:right;color:#059669;font-family:monospace;font-size:12px;">₹85,000.00</td>
+                <td style="padding:10px 12px;text-align:right;font-family:monospace;font-weight:600;font-size:12px;">₹120,000.00</td>
+                <td style="padding:10px 12px;"><span style="background:#D1FAE5;color:#065F46;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">SALARY</span></td>
+            </tr>
+            
+
+            <tr style="background:#FFFFFF;border-bottom:1px solid #E5E7EB;">
+                <td style="padding:10px 12px;font-family:monospace;font-size:12px;">TXN_0002</td>
+                <td style="padding:10px 12px;white-space:nowrap;font-size:12px;">2026-10-02</td>
+                <td style="padding:10px 12px;font-size:12px;">UPI/DR/MOBIKWIK/PPIW ADD MONEY/WALLET</td>
+                <td style="padding:10px 12px;text-align:right;color:#DC2626;font-family:monospace;font-size:12px;">₹50,000.00</td>
+                <td style="padding:10px 12px;text-align:right;color:#059669;font-family:monospace;font-size:12px;">-</td>
+                <td style="padding:10px 12px;text-align:right;font-family:monospace;font-weight:600;font-size:12px;">₹70,000.00</td>
+                <td style="padding:10px 12px;"><span style="color:#9CA3AF;font-size:11px;">GENERAL</span></td>
+            </tr>
+            
+
+            <tr style="background:#FEF2F2;border-bottom:1px solid #E5E7EB;">
+                <td style="padding:10px 12px;font-family:monospace;font-size:12px;">TXN_0003</td>
+                <td style="padding:10px 12px;white-space:nowrap;font-size:12px;">2026-10-03</td>
+                <td style="padding:10px 12px;font-size:12px;">UPI/CR/MOBIKWIK PPIW WALLET CASH OUT</td>
+                <td style="padding:10px 12px;text-align:right;color:#DC2626;font-family:monospace;font-size:12px;">-</td>
+                <td style="padding:10px 12px;text-align:right;color:#059669;font-family:monospace;font-size:12px;">₹50,000.00</td>
+                <td style="padding:10px 12px;text-align:right;font-family:monospace;font-weight:600;font-size:12px;">₹120,000.00</td>
+                <td style="padding:10px 12px;"><span style="background:#EDE9FE;color:#5B21B6;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">CC ROTATION</span></td>
+            </tr>
+            
+
+            <tr style="background:#FEF2F2;border-bottom:1px solid #E5E7EB;">
+                <td style="padding:10px 12px;font-family:monospace;font-size:12px;">TXN_0004</td>
+                <td style="padding:10px 12px;white-space:nowrap;font-size:12px;">2026-10-04</td>
+                <td style="padding:10px 12px;font-size:12px;">UPI/DR/billpay.axb@upi/CCBILLPAY AXIS CARD</td>
+                <td style="padding:10px 12px;text-align:right;color:#DC2626;font-family:monospace;font-size:12px;">₹49,500.00</td>
+                <td style="padding:10px 12px;text-align:right;color:#059669;font-family:monospace;font-size:12px;">-</td>
+                <td style="padding:10px 12px;text-align:right;font-family:monospace;font-weight:600;font-size:12px;">₹70,500.00</td>
+                <td style="padding:10px 12px;"><span style="background:#EDE9FE;color:#5B21B6;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">CC ROTATION</span></td>
+            </tr>
+            
+
+            <tr style="background:#FEF2F2;border-bottom:1px solid #E5E7EB;">
+                <td style="padding:10px 12px;font-family:monospace;font-size:12px;">TXN_0005</td>
+                <td style="padding:10px 12px;white-space:nowrap;font-size:12px;">2026-10-05</td>
+                <td style="padding:10px 12px;font-size:12px;">ACH RTN/BAJAJ FINANCE/MANDATE REJECT/UNPAID</td>
+                <td style="padding:10px 12px;text-align:right;color:#DC2626;font-family:monospace;font-size:12px;">-</td>
+                <td style="padding:10px 12px;text-align:right;color:#059669;font-family:monospace;font-size:12px;">-</td>
+                <td style="padding:10px 12px;text-align:right;font-family:monospace;font-weight:600;font-size:12px;">₹70,500.00</td>
+                <td style="padding:10px 12px;"><span style="background:#FEE2E2;color:#991B1B;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">BOUNCE</span></td>
+            </tr>
+            
+
+            <tr style="background:#FEF2F2;border-bottom:1px solid #E5E7EB;">
+                <td style="padding:10px 12px;font-family:monospace;font-size:12px;">TXN_0006</td>
+                <td style="padding:10px 12px;white-space:nowrap;font-size:12px;">2026-10-05</td>
+                <td style="padding:10px 12px;font-size:12px;">ECS RETURN CHRG/GST INCL/PENALTY</td>
+                <td style="padding:10px 12px;text-align:right;color:#DC2626;font-family:monospace;font-size:12px;">₹295.00</td>
+                <td style="padding:10px 12px;text-align:right;color:#059669;font-family:monospace;font-size:12px;">-</td>
+                <td style="padding:10px 12px;text-align:right;font-family:monospace;font-weight:600;font-size:12px;">₹70,205.00</td>
+                <td style="padding:10px 12px;"><span style="background:#FEE2E2;color:#991B1B;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">BOUNCE</span> <span style="background:#FCE7F3;color:#9D174D;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">PENALTY</span></td>
+            </tr>
+            
+
+            <tr style="background:#FFFFFF;border-bottom:1px solid #E5E7EB;">
+                <td style="padding:10px 12px;font-family:monospace;font-size:12px;">TXN_0007</td>
+                <td style="padding:10px 12px;white-space:nowrap;font-size:12px;">2026-10-07</td>
+                <td style="padding:10px 12px;font-size:12px;">LN REC DL REC SWEEP PARTIAL RECOVERY</td>
+                <td style="padding:10px 12px;text-align:right;color:#DC2626;font-family:monospace;font-size:12px;">₹160.63</td>
+                <td style="padding:10px 12px;text-align:right;color:#059669;font-family:monospace;font-size:12px;">-</td>
+                <td style="padding:10px 12px;text-align:right;font-family:monospace;font-weight:600;font-size:12px;">₹70,044.37</td>
+                <td style="padding:10px 12px;"><span style="background:#FEF9C3;color:#854D0E;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">PARTIAL REC</span></td>
+            </tr>
+            
+
+            <tr style="background:#FFFFFF;border-bottom:1px solid #E5E7EB;">
+                <td style="padding:10px 12px;font-family:monospace;font-size:12px;">TXN_0008</td>
+                <td style="padding:10px 12px;white-space:nowrap;font-size:12px;">2026-10-10</td>
+                <td style="padding:10px 12px;font-size:12px;">UPI/DR/DREAM11/CONTEST ENTRY/GAMING</td>
+                <td style="padding:10px 12px;text-align:right;color:#DC2626;font-family:monospace;font-size:12px;">₹2,500.00</td>
+                <td style="padding:10px 12px;text-align:right;color:#059669;font-family:monospace;font-size:12px;">-</td>
+                <td style="padding:10px 12px;text-align:right;font-family:monospace;font-weight:600;font-size:12px;">₹67,544.37</td>
+                <td style="padding:10px 12px;"><span style="background:#FFEDD5;color:#9A3412;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">GAMBLING</span></td>
+            </tr>
+            
+
+            <tr style="background:#FFFFFF;border-bottom:1px solid #E5E7EB;">
+                <td style="padding:10px 12px;font-family:monospace;font-size:12px;">TXN_0009</td>
+                <td style="padding:10px 12px;white-space:nowrap;font-size:12px;">2026-10-14</td>
+                <td style="padding:10px 12px;font-size:12px;">UPI/DR/DREAM11/CONTEST ENTRY/GAMING</td>
+                <td style="padding:10px 12px;text-align:right;color:#DC2626;font-family:monospace;font-size:12px;">₹3,000.00</td>
+                <td style="padding:10px 12px;text-align:right;color:#059669;font-family:monospace;font-size:12px;">-</td>
+                <td style="padding:10px 12px;text-align:right;font-family:monospace;font-weight:600;font-size:12px;">₹64,544.37</td>
+                <td style="padding:10px 12px;"><span style="background:#FFEDD5;color:#9A3412;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">GAMBLING</span></td>
+            </tr>
+            
+
+            <tr style="background:#FFFFFF;border-bottom:1px solid #E5E7EB;">
+                <td style="padding:10px 12px;font-family:monospace;font-size:12px;">TXN_0010</td>
+                <td style="padding:10px 12px;white-space:nowrap;font-size:12px;">2026-10-18</td>
+                <td style="padding:10px 12px;font-size:12px;">UPI/DR/DREAM11/CONTEST ENTRY/GAMING</td>
+                <td style="padding:10px 12px;text-align:right;color:#DC2626;font-family:monospace;font-size:12px;">₹4,000.00</td>
+                <td style="padding:10px 12px;text-align:right;color:#059669;font-family:monospace;font-size:12px;">-</td>
+                <td style="padding:10px 12px;text-align:right;font-family:monospace;font-weight:600;font-size:12px;">₹60,544.37</td>
+                <td style="padding:10px 12px;"><span style="background:#FFEDD5;color:#9A3412;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">GAMBLING</span></td>
+            </tr>
+            
+
+            <tr style="background:#FFFFFF;border-bottom:1px solid #E5E7EB;">
+                <td style="padding:10px 12px;font-family:monospace;font-size:12px;">TXN_0011</td>
+                <td style="padding:10px 12px;white-space:nowrap;font-size:12px;">2026-10-20</td>
+                <td style="padding:10px 12px;font-size:12px;">UPI/DR/ZERODHA BROKING LTD/MARGIN FUNDING</td>
+                <td style="padding:10px 12px;text-align:right;color:#DC2626;font-family:monospace;font-size:12px;">₹15,000.00</td>
+                <td style="padding:10px 12px;text-align:right;color:#059669;font-family:monospace;font-size:12px;">-</td>
+                <td style="padding:10px 12px;text-align:right;font-family:monospace;font-weight:600;font-size:12px;">₹45,544.37</td>
+                <td style="padding:10px 12px;"><span style="background:#FEF3C7;color:#92400E;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">SPECULATIVE</span></td>
+            </tr>
+            
+
+            <tr style="background:#FFFFFF;border-bottom:1px solid #E5E7EB;">
+                <td style="padding:10px 12px;font-family:monospace;font-size:12px;">TXN_0012</td>
+                <td style="padding:10px 12px;white-space:nowrap;font-size:12px;">2026-10-25</td>
+                <td style="padding:10px 12px;font-size:12px;">POS GROCERY STORE SWIPE NEW DELHI</td>
+                <td style="padding:10px 12px;text-align:right;color:#DC2626;font-family:monospace;font-size:12px;">₹2,350.00</td>
+                <td style="padding:10px 12px;text-align:right;color:#059669;font-family:monospace;font-size:12px;">-</td>
+                <td style="padding:10px 12px;text-align:right;font-family:monospace;font-weight:600;font-size:12px;">₹43,194.37</td>
+                <td style="padding:10px 12px;"><span style="color:#9CA3AF;font-size:11px;">GENERAL</span></td>
+            </tr>
+            
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
